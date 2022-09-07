@@ -1,0 +1,4 @@
+data class ${className}Request(
+${fields}
+)
+

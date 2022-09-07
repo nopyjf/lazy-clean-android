@@ -1,0 +1,6 @@
+package th.co.robinhood.model.${feature}.request
+
+import com.google.gson.annotations.SerializedName
+
+
+${classes}
