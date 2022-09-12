@@ -1,0 +1,4 @@
+@Parcelize
+data class ${className}Dislay(
+${fields}
+) : BaseModelDisplay()

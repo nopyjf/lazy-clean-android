@@ -1,4 +1,4 @@
-package th.co.robinhood.services.${feature}.request
+package th.co.robinhood.model.${feature}.${className}
 
 import com.google.gson.annotations.SerializedName
 

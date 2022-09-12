@@ -1,0 +1,1 @@
+    @SerializedName("${field}") var ${field}: ${type}?,

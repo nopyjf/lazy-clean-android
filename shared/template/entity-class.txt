@@ -1,0 +1,3 @@
+data class ${className}Entity(
+${fields}
+)

@@ -1,0 +1,7 @@
+package th.co.robinhood.model.${feature}.${className}
+
+import kotlinx.parcelize.Parcelize
+import th.co.robinhood.common.display.BaseModelDisplay
+
+
+${classes}

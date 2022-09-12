@@ -1,7 +1,13 @@
 import { MyRequest } from "../models/my-request";
 import { isArray, isObject } from "./class-type-manager";
 import { toJson } from "./json-manager";
-import { getRequestTemplate, TemplateData } from "./load-template";
+import {
+  getDisplayTemplate,
+  getEntityTemplate,
+  getModelTemplate,
+  getRequestTemplate,
+  TemplateData,
+} from "./load-template";
 import { toClassName } from "./text-utils";
 
 export declare type ObjectItem = {
@@ -11,8 +17,12 @@ export declare type ObjectItem = {
 };
 
 export class DataClassManager {
-  jsonString: string = "";
-  objects: [ObjectItem?] = [];
+  requestString: string = "";
+  entityString: string = "";
+  modelString: string = "";
+  displayString: string = "";
+  requestObjects: [ObjectItem?] = [];
+  responseObjects: [ObjectItem?] = [];
   template: TemplateData;
   body: MyRequest;
 
@@ -22,20 +32,32 @@ export class DataClassManager {
   }
 }
 
-export function addFirstJson(data: DataClassManager) {
-  console.info(`info: [addFirstJson]`);
+export function addFirstRequestJson(data: DataClassManager) {
+  console.info(`info: [addFirstRequestJson]`);
   console.info(`info: data:${data.body.class}`);
   console.info(`info: data:${data.body.requestJson}`);
 
-  data.objects.push({
+  data.requestObjects.push({
     key: toClassName(data.body.class),
     value: toJson(data.body.requestJson),
     isObjList: false,
   });
 }
 
-export function mapDataClass(data: DataClassManager, json: any) {
-  console.info(`info: [mapDataClass]`);
+export function addFirstResponseJson(data: DataClassManager) {
+  console.info(`info: [addFirstResponseJson]`);
+  console.info(`info: data:${data.body.class}`);
+  console.info(`info: data:${data.body.responseJson}`);
+
+  data.responseObjects.push({
+    key: toClassName(data.body.class),
+    value: toJson(data.body.responseJson),
+    isObjList: false,
+  });
+}
+
+export function mapRequestDataClass(data: DataClassManager, json: any) {
+  console.info(`info: [mapRequestDataClass]`);
   console.info(`info: data:${data}`);
   console.info(`info: json:${json}`);
 
@@ -43,18 +65,56 @@ export function mapDataClass(data: DataClassManager, json: any) {
   const childObjects = getChildObjects(json);
 
   console.log("info : Push object list into main list.");
-  data.objects.push(...childObjects);
+  data.requestObjects.push(...childObjects);
 
   if (childObjects.length > 0) {
     console.log("info : Child Object appeared.");
     childObjects.forEach((obj) => {
-      mapDataClass(data, obj?.value);
+      mapRequestDataClass(data, obj?.value);
+    });
+  }
+}
+
+export function mapResponseDataClass(data: DataClassManager, json: any) {
+  console.info(`info: [mapResponseDataClass]`);
+  console.info(`info: data:${data}`);
+  console.info(`info: json:${json}`);
+
+  console.log("info : List element in object.");
+  const childObjects = getChildObjects(json);
+
+  console.log("info : Push object list into main list.");
+  data.responseObjects.push(...childObjects);
+
+  if (childObjects.length > 0) {
+    console.log("info : Child Object appeared.");
+    childObjects.forEach((obj) => {
+      mapResponseDataClass(data, obj?.value);
     });
   }
 }
 
 export function mapJsonString(data: DataClassManager) {
-  data.jsonString = getRequestTemplate(data.template, data.body, data.objects);
+  data.requestString = getRequestTemplate(
+    data.template,
+    data.body,
+    data.requestObjects
+  );
+  data.entityString = getEntityTemplate(
+    data.template,
+    data.body,
+    data.responseObjects
+  );  
+  data.modelString = getModelTemplate(
+    data.template,
+    data.body,
+    data.responseObjects
+  );
+  data.displayString = getDisplayTemplate(
+    data.template,
+    data.body,
+    data.responseObjects
+  );  
 }
 
 function getChildObjects(json: any): [ObjectItem?] {
