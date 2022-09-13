@@ -2,6 +2,7 @@ import { MyRequest } from "../models/my-request";
 import { getClassType } from "./class-type-manager";
 import { ObjectItem } from "./data-class-manager";
 import { getTemplateDir, readSomeFile } from "./file-manager";
+import { toClassName, toFieldName } from "./text-utils";
 
 export class TemplateData {
   request: string = "";
@@ -16,6 +17,12 @@ export class TemplateData {
   display: string = "";
   displayField: string = "";
   displayClass: string = "";
+  service: string = "";
+  api: string = "";
+  repository: string = "";
+  repositoryContractor: string = "";
+  usecase: string = "";
+  controller: string = "";
 }
 
 export async function loadTemplate(): Promise<TemplateData> {
@@ -32,6 +39,12 @@ export async function loadTemplate(): Promise<TemplateData> {
   data.display = await readSomeFile(getTemplateDir(), "display.txt");
   data.displayField = await readSomeFile(getTemplateDir(), "display-field.txt");
   data.displayClass = await readSomeFile(getTemplateDir(), "display-class.txt");
+  data.service = await readSomeFile(getTemplateDir(), "service.txt");
+  data.api = await readSomeFile(getTemplateDir(), "api.txt");
+  data.repository = await readSomeFile(getTemplateDir(), "repository.txt");
+  data.repositoryContractor = await readSomeFile(getTemplateDir(), "repository-contractor.txt");
+  data.usecase = await readSomeFile(getTemplateDir(), "usecase.txt");
+  data.controller = await readSomeFile(getTemplateDir(), "controller.txt");
   return data;
 }
 
@@ -176,4 +189,81 @@ export function getDisplayTemplate(
     .replaceAll("${feature}", request.feature)
     .replaceAll("${classes}", getClasses())
     .replaceAll("${className}", request.class.toLowerCase());
+}
+
+export function getServiceTemplate(
+  data: TemplateData,
+  request: MyRequest,
+): string {
+  return data.service
+    .replaceAll("${feature}", request.feature)
+    .replaceAll("${featureUpper}", toClassName(request.feature))
+    .replaceAll("${method}", request.method)  
+    .replaceAll("${className}", request.class)
+    .replaceAll("${methodLower}", request.method.toLowerCase())
+    .replaceAll("${api}", request.api)
+    .replaceAll("${package}", request.package);
+}
+
+export function getApiTemplate(
+  data: TemplateData,
+  request: MyRequest,
+): string {
+  return data.api
+    .replaceAll("${feature}", request.feature)
+    .replaceAll("${featureUpper}", toClassName(request.feature))
+    .replaceAll("${className}", request.class)
+    .replaceAll("${methodLower}", request.method.toLowerCase())
+    .replaceAll("${package}", request.package);
+}
+
+export function getRepositoryTemplate(
+  data: TemplateData,
+  request: MyRequest,
+): string {
+  return data.repository
+    .replaceAll("${feature}", request.feature)
+    .replaceAll("${featureUpper}", toClassName(request.feature)) 
+    .replaceAll("${className}", request.class)
+    .replaceAll("${methodLower}", request.method.toLowerCase())
+    .replaceAll("${package}", request.package);
+}
+
+export function getRepositoryContractorTemplate(
+  data: TemplateData,
+  request: MyRequest,
+): string {
+  return data.repositoryContractor
+    .replaceAll("${feature}", request.feature)
+    .replaceAll("${featureUpper}", toClassName(request.feature))
+    .replaceAll("${className}", request.class)
+    .replaceAll("${methodLower}", request.method.toLowerCase())
+    .replaceAll("${package}", request.package);
+}
+
+export function getUseCaseTemplate(
+  data: TemplateData,
+  request: MyRequest,
+): string {
+  return data.usecase
+    .replaceAll("${feature}", request.feature)
+    .replaceAll("${featureUpper}", toClassName(request.feature))
+    .replaceAll("${className}", request.class)
+    .replaceAll("${methodLower}", request.method.toLowerCase())
+    .replaceAll("${methodCap}", toClassName(request.method))
+    .replaceAll("${package}", request.package);
+}
+
+export function getControllerTemplate(
+  data: TemplateData,
+  request: MyRequest,
+): string {
+  return data.controller
+    .replaceAll("${feature}", request.feature)
+    .replaceAll("${featureUpper}", toClassName(request.feature))
+    .replaceAll("${className}", request.class)
+    .replaceAll("${classNameLower}", toFieldName(request.class))
+    .replaceAll("${methodLower}", request.method.toLowerCase())
+    .replaceAll("${methodCap}", toClassName(request.method))
+    .replaceAll("${package}", request.package);
 }

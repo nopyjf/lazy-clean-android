@@ -10,10 +10,16 @@ import {
 } from "../../../utils/data-class-manager";
 import { getExampleDir, saveSomeFile } from "../../../utils/file-manager";
 import {
+  getApiFileName,
+  getControllerFileName,
   getDisplayFileName,
   getEntityFileName,
   getModelFileName,
+  getRepositoryContractorFileName,
+  getRepositoryFileName,
   getRequestFileName,
+  getServiceFileName,
+  getUseCaseFileName,
 } from "../../../utils/file-name-manager";
 import { toJson } from "../../../utils/json-manager";
 import { loadTemplate, TemplateData } from "../../../utils/load-template";
@@ -31,24 +37,59 @@ const post = async (req: NextApiRequest) => {
   mapJsonString(dataClassManager);
 
   saveSomeFile(
-    getExampleDir(),
+    getExampleDir(dataClassManager.body),
     getRequestFileName(dataClassManager.body),
     dataClassManager.requestString
   );
   saveSomeFile(
-    getExampleDir(),
+    getExampleDir(dataClassManager.body),
     getEntityFileName(dataClassManager.body),
     dataClassManager.entityString
   );
   saveSomeFile(
-    getExampleDir(),
+    getExampleDir(dataClassManager.body),
     getModelFileName(dataClassManager.body),
     dataClassManager.modelString
   );
   saveSomeFile(
-    getExampleDir(),
+    getExampleDir(dataClassManager.body),
     getDisplayFileName(dataClassManager.body),
     dataClassManager.displayString
+  );
+  saveSomeFile(
+    getExampleDir(dataClassManager.body),
+    getServiceFileName(dataClassManager.body),
+    dataClassManager.serviceString
+  );
+  saveSomeFile(
+    getExampleDir(dataClassManager.body),
+    getServiceFileName(dataClassManager.body),
+    dataClassManager.apiString
+  );
+  saveSomeFile(
+    getExampleDir(dataClassManager.body),
+    getApiFileName(dataClassManager.body),
+    dataClassManager.apiString
+  );
+  saveSomeFile(
+    getExampleDir(dataClassManager.body),
+    getRepositoryFileName(dataClassManager.body),
+    dataClassManager.repositoryString
+  );
+  saveSomeFile(
+    getExampleDir(dataClassManager.body),
+    getRepositoryContractorFileName(dataClassManager.body),
+    dataClassManager.repositoryContractorString
+  );
+  saveSomeFile(
+    getExampleDir(dataClassManager.body),
+    getUseCaseFileName(dataClassManager.body),
+    dataClassManager.usecaseString
+  );
+  saveSomeFile(
+    getExampleDir(dataClassManager.body),
+    getControllerFileName(dataClassManager.body),
+    dataClassManager.controllerString
   );
 };
 

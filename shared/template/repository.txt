@@ -1,0 +1,25 @@
+package ${package}.services.${feature}.repository
+
+import io.reactivex.Single
+import ${package}.common.di.FeatureAnnotation
+import ${package}.model.${feature}.${className}.${className}
+import ${package}.model.${feature}.${className}.${className}Mapper
+import ${package}.services.${feature}.request.${className}Request
+import ${package}.services.${feature}.service.${featureUpper}Api
+import javax.inject.Inject
+
+
+@FeatureAnnotation
+class ${featureUpper}Repository @Inject constructor(
+    private val api: ${featureUpper}Api,
+    private val mapper: ${className}EntityMapper
+) : ${featureUpper}RepositoryContractor {
+
+    override fun ${methodLower}${className}(request: ${className}Request): Single<${className}> {
+        return api.${methodLower}${className}(request)
+            .map { it.data }
+            .map { mapper.transformEntity(it) }
+        
+        service.${methodLower}${className}(request)
+    }
+}

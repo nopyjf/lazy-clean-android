@@ -1,0 +1,25 @@
+package ${package}.services.${feature}.repository
+
+import ${package}.common.di.FeatureAnnotation
+import ${package}.common.executor.ThreadExecutor
+import ${package}.common.interactor.BaseSingleUseCase
+import ${package}.common.interactor.ThreadExecutors
+import ${package}.model.${feature}.${className}.${className}
+import ${package}.services.${feature}.request.${className}Request
+import ${package}.services.${feature}.repository.${featureUpper}RepositoryContractor
+import javax.inject.Inject
+import javax.inject.Named
+
+
+@FeatureAnnotation
+class ${methodCap}${className}UseCase @Inject constructor(
+    @Named(ThreadExecutors.FEATURES_SUBSCRIBER_ON_IO) subscriberOn: ThreadExecutor,
+    @Named(ThreadExecutors.FEATURES_OBSERVER_ON) observerOn: ThreadExecutor,
+    private val repository: ${featureUpper}RepositoryContractor
+) : BaseSingleUseCase<${className}, ${methodCap}${className}UseCase.Param>(
+    subscriberOn,
+    observerOn,
+    builder = { param -> repository.getMartLanding(request) }
+) {
+    class Param(val request: ${className}Request) : Params
+}

@@ -2,10 +2,16 @@ import { MyRequest } from "../models/my-request";
 import { isArray, isObject } from "./class-type-manager";
 import { toJson } from "./json-manager";
 import {
+  getApiTemplate,
+  getControllerTemplate,
   getDisplayTemplate,
   getEntityTemplate,
   getModelTemplate,
+  getRepositoryContractorTemplate,
+  getRepositoryTemplate,
   getRequestTemplate,
+  getServiceTemplate,
+  getUseCaseTemplate,
   TemplateData,
 } from "./load-template";
 import { toClassName } from "./text-utils";
@@ -21,6 +27,12 @@ export class DataClassManager {
   entityString: string = "";
   modelString: string = "";
   displayString: string = "";
+  serviceString: string = "";
+  apiString: string = "";
+  repositoryString: string = "";
+  repositoryContractorString: string = "";
+  usecaseString: string = "";
+  controllerString: string = "";
   requestObjects: [ObjectItem?] = [];
   responseObjects: [ObjectItem?] = [];
   template: TemplateData;
@@ -115,6 +127,30 @@ export function mapJsonString(data: DataClassManager) {
     data.body,
     data.responseObjects
   );  
+  data.serviceString = getServiceTemplate(
+    data.template,
+    data.body,
+  );
+  data.apiString = getApiTemplate(
+    data.template,
+    data.body,
+  );
+  data.repositoryContractorString = getRepositoryContractorTemplate(
+    data.template,
+    data.body,
+  );
+  data.repositoryString = getRepositoryTemplate(
+    data.template,
+    data.body,
+  );
+  data.usecaseString = getUseCaseTemplate(
+    data.template,
+    data.body,
+  );
+  data.controllerString = getControllerTemplate(
+    data.template,
+    data.body,
+  );
 }
 
 function getChildObjects(json: any): [ObjectItem?] {

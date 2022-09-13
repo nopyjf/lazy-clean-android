@@ -1,0 +1,7 @@
+package ${package}.${feature}.repository
+
+
+interface ${featureUpper}RepositoryContractor {
+    
+    fun ${methodLower}${className}(request: ${className}Request): Single<${className}>
+}

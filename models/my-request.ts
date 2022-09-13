@@ -6,4 +6,5 @@ export declare type MyRequest = {
   directory: string,
   responseJson: string,
   requestJson: string,
+  api: string,
 }

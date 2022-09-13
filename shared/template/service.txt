@@ -1,0 +1,16 @@
+package ${package}.services.${feature}.service
+
+import io.reactivex.Single
+import retrofit2.http.Body
+import ${package}.common.entity.SingleDataEntity
+import ${package}.model.${feature}.${className}.${className}Entity
+import ${package}.services.${feature}.request.${className}Request
+
+
+interface ${featureUpper}Service {
+    
+    @${method}("${api}")
+    fun ${methodLower}${className}(
+        @Body request: ${className}Request
+    ): Single<SingleDataEntity<${className}Entity>>
+}

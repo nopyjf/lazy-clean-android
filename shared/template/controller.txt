@@ -1,0 +1,33 @@
+package ${package}.services.${feature}.controller
+
+import io.reactivex.disposables.CompositeDisposable
+import ${package}.common.controller.BaseController
+import ${package}.common.di.FeatureAnnotation
+import ${package}.model.${feature}..${className}.${className}Display
+import ${package}.model.${feature}..${className}.${className}DisplayMapper
+import ${package}.services.${feature}.request.${className}Request
+import ${package}.services.${feature}.service.${methodCap}${className}UseCase
+import javax.inject.Inject
+
+
+@FeatureAnnotation
+class MartController @Inject constructor(
+    private val ${methodLower}${className}UseCase: ${methodCap}${className}UseCase,
+    private val ${classNameLower}DisplayMapper: ${className}DisplayMapper
+) : BaseController() {
+
+    fun ${methodLower}${className}(
+        request: ${className}Request,
+        onSuccess: (${className}Display) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        ${methodLower}${className}UseCase.execute(
+            onSuccess,
+            onError,
+            ${methodCap}${className}UseCase.Param(request), {
+                ${classNameLower}DisplayMapper.transform(it)
+            },
+            CompositeDisposable()
+        )
+    }
+}

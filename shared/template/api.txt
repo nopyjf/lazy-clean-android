@@ -1,0 +1,16 @@
+package ${package}.services.${feature}.api
+
+import io.reactivex.Single
+import ${package}.common.entity.SingleDataEntity
+import ${package}.model.${feature}.${className}.${className}Entity
+import ${package}.services.${feature}.request.${className}Request
+import ${package}.services.${feature}.service.${featureUpper}Service
+import javax.inject.Inject
+
+
+class ${featureUpper}Api @Inject constructor(private val service: ${featureUpper}Service) {
+    
+    fun ${methodLower}${className}(request: ${className}Request): Single<SingleDataEntity<${className}Entity>> {
+        return service.${methodLower}${className}(request)
+    }
+}
