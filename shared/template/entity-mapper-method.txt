@@ -1,0 +1,5 @@
+    fun transform${className}Entity(entity): ${className} {
+        return ${className}(
+${fields}
+        )
+    }

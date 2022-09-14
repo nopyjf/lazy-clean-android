@@ -14,6 +14,7 @@ import {
   getControllerFileName,
   getDisplayFileName,
   getEntityFileName,
+  getEntityMapperFileName,
   getModelFileName,
   getRepositoryContractorFileName,
   getRepositoryFileName,
@@ -90,6 +91,11 @@ const post = async (req: NextApiRequest) => {
     getExampleDir(dataClassManager.body),
     getControllerFileName(dataClassManager.body),
     dataClassManager.controllerString
+  );
+  saveSomeFile(
+    getExampleDir(dataClassManager.body),
+    getEntityMapperFileName(dataClassManager.body),
+    dataClassManager.entityMapperString
   );
 };
 

@@ -1,4 +1,4 @@
-import { toClassName } from "./text-utils";
+import { toClassName, toFieldName } from "./text-utils";
 
 export function isDouble(object: any): boolean {
   return typeof object == "number" && object.toString().includes(".");
@@ -49,5 +49,18 @@ export function getClassType(
     return `List<${toClassName(key)}${suffix}>`;
   } else {
     return `String`;
+  }
+}
+
+export function getEntityMapperField(
+  key: string,
+  object: any,
+): string {
+  if (isArray(object)) {
+    return `transform${toClassName(key)}Entities`;
+  } else if (isObject(object)) {
+    return `transform${toClassName(key)}Entity`;
+  } else {
+    return `entity.${toFieldName(key)}`;
   }
 }

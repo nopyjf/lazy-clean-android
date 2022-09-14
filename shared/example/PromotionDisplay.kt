@@ -1,20 +1,18 @@
-package th.co.robinhood.model.mart.martfav
+package th.co.robinhood.model.promotion.promotionjaa
 
 import kotlinx.parcelize.Parcelize
 import th.co.robinhood.common.display.BaseModelDisplay
 
 
 @Parcelize
-data class MartFavDislay(
+data class PromotionJaaPromotionJaaDislay(
     var promotionList: List<PromotionList>,
     var pagination: Pagination,
 
-) : BaseModelDisplay()@Parcelize
-data class MartFavDislay(
-    var 0: 0,
+) : BaseModelDisplay()
 
-) : BaseModelDisplay()@Parcelize
-data class MartFavDislay(
+@Parcelize
+data class PromotionJaaPromotionListDislay(
     var promotionId: Int,
     var promotionName: String,
     var shortDescription: String,
@@ -32,3 +30,13 @@ data class MartFavDislay(
     var applicationKey: String,
 
 ) : BaseModelDisplay()
+
+@Parcelize
+data class PromotionJaaPaginationDislay(
+    var currentPage: Int,
+    var pageSize: Int,
+    var hasNextPage: Boolean,
+    var hasPreviousPage: Boolean,
+
+) : BaseModelDisplay()
+

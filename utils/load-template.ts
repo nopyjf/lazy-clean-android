@@ -1,5 +1,5 @@
 import { MyRequest } from "../models/my-request";
-import { getClassType } from "./class-type-manager";
+import { getClassType, getEntityMapperField, isArray, isObject } from "./class-type-manager";
 import { ObjectItem } from "./data-class-manager";
 import { getTemplateDir, readSomeFile } from "./file-manager";
 import { toClassName, toFieldName } from "./text-utils";
@@ -23,6 +23,10 @@ export class TemplateData {
   repositoryContractor: string = "";
   usecase: string = "";
   controller: string = "";
+  entityMapper: string = "";
+  entityMapperField: string = "";
+  entityMapperMethod: string = "";
+  entityMapperListMethod: string = "";
 }
 
 export async function loadTemplate(): Promise<TemplateData> {
@@ -45,6 +49,10 @@ export async function loadTemplate(): Promise<TemplateData> {
   data.repositoryContractor = await readSomeFile(getTemplateDir(), "repository-contractor.txt");
   data.usecase = await readSomeFile(getTemplateDir(), "usecase.txt");
   data.controller = await readSomeFile(getTemplateDir(), "controller.txt");
+  data.entityMapper = await readSomeFile(getTemplateDir(), "entity-mapper.txt");
+  data.entityMapperMethod = await readSomeFile(getTemplateDir(), "entity-mapper-method.txt");
+  data.entityMapperListMethod = await readSomeFile(getTemplateDir(), "entity-mapper-list-method.txt");
+  data.entityMapperField = await readSomeFile(getTemplateDir(), "entity-mapper-field.txt");
   return data;
 }
 
@@ -106,9 +114,10 @@ export function getEntityTemplate(
     var classContent = "";
     for (let i in objects) {
       let fields = getFields(objects[i]);
-      classContent += data.entityClass
+      let content = data.entityClass
         .replaceAll("${fields}", fields)
-        .replaceAll("${className}", request.class);
+        .replaceAll("${className}", `${request.class}${objects[i]?.key}`);
+      classContent += `${content}\n\n`;
     }
     return classContent;
   };
@@ -142,9 +151,10 @@ export function getModelTemplate(
     var classContent = "";
     for (let i in objects) {
       let fields = getFields(objects[i]);
-      classContent += data.modelClass
+      let content = data.modelClass
         .replaceAll("${fields}", fields)
-        .replaceAll("${className}", request.class);
+        .replaceAll("${className}", `${request.class}${objects[i]?.key}`);
+      classContent += `${content}\n\n`;
     }
     return classContent;
   };
@@ -178,9 +188,10 @@ export function getDisplayTemplate(
     var classContent = "";
     for (let i in objects) {
       let fields = getFields(objects[i]);
-      classContent += data.displayClass
+      let content = data.displayClass
         .replaceAll("${fields}", fields)
-        .replaceAll("${className}", request.class);
+        .replaceAll("${className}", `${request.class}${objects[i]?.key}`);
+      classContent += `${content}\n\n`;
     }
     return classContent;
   };
@@ -266,4 +277,64 @@ export function getControllerTemplate(
     .replaceAll("${methodLower}", request.method.toLowerCase())
     .replaceAll("${methodCap}", toClassName(request.method))
     .replaceAll("${package}", request.package);
+}
+
+export function getEntityMapperTemplate(
+  data: TemplateData,
+  request: MyRequest,
+  objects: [ObjectItem?]
+): string {
+
+  const getFields = (obj: any): string => {
+    var fieldsContent = "";
+
+    for (let key in obj.value) {
+      let mapper: string = getEntityMapperField(key, obj.value[key]);
+      let content: string = data.entityMapperField
+        .replaceAll("${field}", key)
+        .replaceAll("${mapper}", mapper)
+      fieldsContent += `${content}\n`;
+    }
+
+    console.log(fieldsContent);
+
+    return fieldsContent;
+  }
+
+  const getMethod = () => {
+
+    var methodContent = "";
+    
+    for (let i in objects) {
+      let fields = getFields(objects[i]);
+      try {
+        let template = getTemplate(objects[i], fields);
+        methodContent += `${template}\n\n`;
+      } catch (err: any) {
+        continue;
+      }
+    }
+
+    return methodContent;
+  };
+
+  const getTemplate = (obj: any, fields: string) => {
+
+    if (isArray(obj)) {
+      return data.entityMapperListMethod
+        .replaceAll("${fields}", fields)
+        .replaceAll("${className}", `${toClassName(`${request.class}${obj.key}`)}`);
+    } else if (isObject(obj)) {
+      return data.entityMapperMethod
+        .replaceAll("${fields}", fields)
+        .replaceAll("${className}", `${toClassName(`${request.class}${obj.key}`)}`);
+    }
+    
+    throw Error('No class type');
+  }
+
+  return data.entityMapper
+    .replaceAll("${feature}", request.feature)
+    .replaceAll("${className}", request.class)
+    .replaceAll("${method}", getMethod());
 }

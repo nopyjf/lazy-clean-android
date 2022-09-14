@@ -5,6 +5,7 @@ import {
   getApiTemplate,
   getControllerTemplate,
   getDisplayTemplate,
+  getEntityMapperTemplate,
   getEntityTemplate,
   getModelTemplate,
   getRepositoryContractorTemplate,
@@ -33,6 +34,7 @@ export class DataClassManager {
   repositoryContractorString: string = "";
   usecaseString: string = "";
   controllerString: string = "";
+  entityMapperString: string = "";
   requestObjects: [ObjectItem?] = [];
   responseObjects: [ObjectItem?] = [];
   template: TemplateData;
@@ -151,6 +153,11 @@ export function mapJsonString(data: DataClassManager) {
     data.template,
     data.body,
   );
+  data.entityMapperString = getEntityMapperTemplate(
+    data.template,
+    data.body,
+    data.responseObjects
+  );
 }
 
 function getChildObjects(json: any): [ObjectItem?] {
@@ -171,11 +178,10 @@ function getChildObjects(json: any): [ObjectItem?] {
       console.log("info : Push List Object to List");
       objects.push({
         key: toClassName(key),
-        value: value,
+        value: json[key][0],
         isObjList: true,
       });
     }
-    return objects;
   }
 
   console.info(`info: return value:${objects}`);

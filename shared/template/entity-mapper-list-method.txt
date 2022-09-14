@@ -1,0 +1,7 @@
+    override fun transform${className}Entities(entity): List<${className}> {
+        return entities.map {
+            ${className}(
+${fields}
+            )
+        }
+    }

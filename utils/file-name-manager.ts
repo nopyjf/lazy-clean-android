@@ -40,3 +40,7 @@ export function getUseCaseFileName(request: MyRequest) {
 export function getControllerFileName(request: MyRequest) {
   return `${toClassName(request.feature)}Controller.kt`;
 }
+
+export function getEntityMapperFileName(request: MyRequest) {
+  return `${toClassName(request.feature)}EntityMapper.kt`;
+}

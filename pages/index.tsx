@@ -21,6 +21,7 @@ const Home: NextPage = () => {
   const [directory, setDirectory] = useState("");
   const [responseJson, setResponseJson] = useState("");
   const [requestJson, setRequestJson] = useState("");
+  const [api, setApi] = useState("");
 
   const handleFeatureChange: OutlinedInputProps["onChange"] = (
     e: ChangeEvent<HTMLInputElement>
@@ -52,6 +53,10 @@ const Home: NextPage = () => {
     setRequestJson(e.target.value);
   };
 
+  const handleApiChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setApi(e.target.value);
+  };
+
   const requestTemplate = async (): Promise<void> => {
     try {
       let request = {
@@ -62,6 +67,7 @@ const Home: NextPage = () => {
         directory: directory,
         requestJson: requestJson,
         responseJson: responseJson,
+        api: api,
       };
       await axios.post("http://localhost:3000/api/request/create", request);
       // enqueueSnackbar("Create Template Success", { variant: "success" });
@@ -127,6 +133,12 @@ const Home: NextPage = () => {
               multiline
               rows={10}
               onChange={handleResponseJsonChange}
+            />
+            <TextField
+              id="response-json-api"
+              label="API"
+              placeholder="Input API"
+              onChange={handleApiChange}
             />
             <Button variant="contained" onClick={requestTemplate}>
               Generate
