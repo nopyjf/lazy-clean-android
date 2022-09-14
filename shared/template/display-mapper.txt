@@ -1,7 +1,5 @@
-package ${package}.services.${feature}.mapper
+package ${package}.features.${feature}.mapper
 
-import kotlinx.parcelize.Parcelize
-import th.co.robinhood.common.mapper.EntityMapper
 import javax.inject.Inject
 
 

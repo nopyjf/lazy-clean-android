@@ -1,4 +1,4 @@
-    override fun transform${className}Entities(entity): List<${className}> {
+    override fun transform${className}Entities(entity: List<${className}Entity>): List<${className}> {
         return entities.map {
             ${className}(
 ${fields}

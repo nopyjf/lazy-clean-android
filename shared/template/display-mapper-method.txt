@@ -1,0 +1,5 @@
+    fun transform${className}Display(model: ${className}): ${className}Display {
+        return ${className}(
+${fields}
+        )
+    }

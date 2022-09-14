@@ -4,6 +4,7 @@ import { toJson } from "./json-manager";
 import {
   getApiTemplate,
   getControllerTemplate,
+  getDisplayMapperTemplate,
   getDisplayTemplate,
   getEntityMapperTemplate,
   getEntityTemplate,
@@ -35,6 +36,7 @@ export class DataClassManager {
   usecaseString: string = "";
   controllerString: string = "";
   entityMapperString: string = "";
+  displayMapperString: string = "";
   requestObjects: [ObjectItem?] = [];
   responseObjects: [ObjectItem?] = [];
   template: TemplateData;
@@ -118,7 +120,7 @@ export function mapJsonString(data: DataClassManager) {
     data.template,
     data.body,
     data.responseObjects
-  );  
+  );
   data.modelString = getModelTemplate(
     data.template,
     data.body,
@@ -128,32 +130,22 @@ export function mapJsonString(data: DataClassManager) {
     data.template,
     data.body,
     data.responseObjects
-  );  
-  data.serviceString = getServiceTemplate(
-    data.template,
-    data.body,
   );
-  data.apiString = getApiTemplate(
-    data.template,
-    data.body,
-  );
+  data.serviceString = getServiceTemplate(data.template, data.body);
+  data.apiString = getApiTemplate(data.template, data.body);
   data.repositoryContractorString = getRepositoryContractorTemplate(
     data.template,
-    data.body,
+    data.body
   );
-  data.repositoryString = getRepositoryTemplate(
-    data.template,
-    data.body,
-  );
-  data.usecaseString = getUseCaseTemplate(
-    data.template,
-    data.body,
-  );
-  data.controllerString = getControllerTemplate(
-    data.template,
-    data.body,
-  );
+  data.repositoryString = getRepositoryTemplate(data.template, data.body);
+  data.usecaseString = getUseCaseTemplate(data.template, data.body);
+  data.controllerString = getControllerTemplate(data.template, data.body);
   data.entityMapperString = getEntityMapperTemplate(
+    data.template,
+    data.body,
+    data.responseObjects
+  );
+  data.displayMapperString = getDisplayMapperTemplate(
     data.template,
     data.body,
     data.responseObjects

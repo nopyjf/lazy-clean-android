@@ -52,15 +52,26 @@ export function getClassType(
   }
 }
 
-export function getEntityMapperField(
-  key: string,
-  object: any,
-): string {
+export function getEntityMapperField(key: string, object: any): string {
   if (isArray(object)) {
-    return `transform${toClassName(key)}Entities`;
+    return `transform${toClassName(key)}Entities(entity.${key})`;
   } else if (isObject(object)) {
-    return `transform${toClassName(key)}Entity`;
+    return `transform${toClassName(key)}Entity(entity.${key})`;
   } else {
     return `entity.${toFieldName(key)}`;
+  }
+}
+
+export function getDisplayMapperField(key: string, object: any): string {
+  if (isArray(object)) {
+    return `transform${toClassName(key)}DisplayList(model.${key}) ?: listOf()`;
+  } else if (isObject(object)) {
+    return `transform${toClassName(key)}Display(model.${key})`;
+  } else if (isBoolean(object)) {
+    return `model.${toFieldName(key)}.orFalse()`;
+  } else if (isString(object)) {
+    return `model.${toFieldName(key)}.orEmpty()`;
+  } else {
+    return `model.${toFieldName(key)}.orZero()`;
   }
 }

@@ -34,7 +34,9 @@ export function getRepositoryContractorFileName(request: MyRequest) {
 }
 
 export function getUseCaseFileName(request: MyRequest) {
-  return `${toClassName(request.method)}${toClassName(request.class)}UseCase.kt`;
+  return `${toClassName(request.method)}${toClassName(
+    request.class
+  )}UseCase.kt`;
 }
 
 export function getControllerFileName(request: MyRequest) {
@@ -43,4 +45,8 @@ export function getControllerFileName(request: MyRequest) {
 
 export function getEntityMapperFileName(request: MyRequest) {
   return `${toClassName(request.feature)}EntityMapper.kt`;
+}
+
+export function getDisplayMapperFileName(request: MyRequest) {
+  return `${toClassName(request.feature)}DisplayMapper.kt`;
 }

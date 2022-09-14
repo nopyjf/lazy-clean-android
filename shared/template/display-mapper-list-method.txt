@@ -1,0 +1,7 @@
+    override fun transform${className}DisplayList(models: List<${className}>): List<${className}Display> {
+        return models.map {
+            ${className}(
+${fields}
+            )
+        }
+    }

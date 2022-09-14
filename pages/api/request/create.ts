@@ -13,6 +13,7 @@ import {
   getApiFileName,
   getControllerFileName,
   getDisplayFileName,
+  getDisplayMapperFileName,
   getEntityFileName,
   getEntityMapperFileName,
   getModelFileName,
@@ -64,11 +65,6 @@ const post = async (req: NextApiRequest) => {
   );
   saveSomeFile(
     getExampleDir(dataClassManager.body),
-    getServiceFileName(dataClassManager.body),
-    dataClassManager.apiString
-  );
-  saveSomeFile(
-    getExampleDir(dataClassManager.body),
     getApiFileName(dataClassManager.body),
     dataClassManager.apiString
   );
@@ -96,6 +92,11 @@ const post = async (req: NextApiRequest) => {
     getExampleDir(dataClassManager.body),
     getEntityMapperFileName(dataClassManager.body),
     dataClassManager.entityMapperString
+  );
+  saveSomeFile(
+    getExampleDir(dataClassManager.body),
+    getDisplayMapperFileName(dataClassManager.body),
+    dataClassManager.displayMapperString
   );
 };
 

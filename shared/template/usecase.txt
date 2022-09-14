@@ -19,7 +19,7 @@ class ${methodCap}${className}UseCase @Inject constructor(
 ) : BaseSingleUseCase<${className}, ${methodCap}${className}UseCase.Param>(
     subscriberOn,
     observerOn,
-    builder = { param -> repository.getMartLanding(request) }
+    builder = { param -> repository.getMartLanding(param.request) }
 ) {
     class Param(val request: ${className}Request) : Params
 }

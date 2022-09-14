@@ -1,4 +1,4 @@
-    fun transform${className}Entity(entity): ${className} {
+    fun transform${className}Entity(entity: ${className}Entity): ${className} {
         return ${className}(
 ${fields}
         )
