@@ -1,0 +1,11 @@
+package ${package}.services.${feature}.mapper
+
+import kotlinx.parcelize.Parcelize
+import th.co.robinhood.common.mapper.EntityMapper
+import javax.inject.Inject
+
+
+class ${className}DisplayMapper @Inject constructor() {
+
+${method}
+}
