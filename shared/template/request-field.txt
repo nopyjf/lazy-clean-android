@@ -1,1 +1,1 @@
-    @SerializedName("${field}") var ${field}: ${type}?,
+    @SerializedName("${field}") val ${field}: ${type}?,

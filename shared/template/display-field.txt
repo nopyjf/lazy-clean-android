@@ -1,1 +1,1 @@
-    var ${field}: ${type},
+    val ${field}: ${type},
